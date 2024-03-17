@@ -48,4 +48,13 @@ export function removeFromCart(productId){
   saveToStorage();
 }
 
+export function calculateCartQuantity(){
+  let cartQuantity = 0; 
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  return cartQuantity;
+}
+
 // using export we can access that property or function outside the file
