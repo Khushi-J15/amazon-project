@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
 let productsHTML = '';
 import { products } from '../data/products.js';
 
@@ -60,35 +60,23 @@ console.log(productsHTML);
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+function updateCartQuantity(){
+  let cartQ = 0;
+
+    cart.forEach((cartItem) => {
+      cartQ += cartItem.quantity;
+    });
+
+    document.querySelector('.js-cart-quantity').innerHTML = cartQ;
+}
+
 // we'll get access to all the add to cart buttons on the page
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
-    let matchingItem;
-
-    cart.forEach((item) => { // checking if item already exists ... so increase quantity
-      if(productId === item.productId){
-        matchingItem = item;
-      }
-    });
-
-    if(matchingItem){
-      matchingItem.quantity++;
-    } else{
-      cart.push({ // adding an object ... 1 object = 1 product
-        productId: productId,
-        quantity: 1
-      });
-    }
-
-    let cartQ = 0;
-
-    cart.forEach((item) => {
-      cartQ += item.quantity;
-    });
-
-    document.querySelector('.js-cart-quantity').innerHTML = cartQ;
-
-    console.log(cart);
+    
+    addToCart(productId);
+    updateCartQuantity();
+    
   });
 });
